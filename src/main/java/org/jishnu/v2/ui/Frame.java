@@ -4,17 +4,18 @@ import org.jishnu.v2.cars.Car;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.logging.Logger;
 
 public class Frame extends JFrame {
 
     private static final long serialVersionUID = 1228193394106659788L;
+    private Logger logger = Logger.getLogger(Frame.class.getName());
 
-    public Frame(Car[] car) {
+    public Frame(Car[] cars) {
         super();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //setResizable(false);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBounds(0, 0, 1920, 1080);
-        Board.setCars(car);
+        setCars(cars);
         setVisible(true);
         addMouseListener(new UserInputHandler());
         new Thread(() -> {
@@ -23,12 +24,17 @@ public class Frame extends JFrame {
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    logger.severe(e.getLocalizedMessage());
                 }
             }
         }).start();
     }
 
+    public void setCars(Car[] cars) {
+        Board.setCars(cars);
+    }
+
+    @Override
     public void paint(Graphics g) {
         Board.drawBoard(g);
     }
