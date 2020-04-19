@@ -32,6 +32,8 @@ public class NetIO {
         double[][][] nodeWeights = network.getNodeWeights();
 
         JSONArray layers = new JSONArray();
+        base.append("Input-Weights", layers);
+        
         for (int layer = 0; layer < nodeWeights.length; layer++) {
             JSONArray nodes = new JSONArray();
             layers.put(nodes);
