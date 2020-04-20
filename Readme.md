@@ -14,7 +14,7 @@ Current implementation:
 
 Planned:
 * Physics: To implement kinematics and effects due to inertia, weight transfer, tyre grip, skid, suspension etc
-* Network: High performance, highly configurable network
+* Network: High performance, highly configurable network (even Cuda implementation with JNI, if I go really overboard)
 * UI: 3D with Global Illumination
 * Inputs: To be provided by user via property files
 
