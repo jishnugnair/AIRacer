@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 public class UIConstants {
-    public static final String TRACK_FILE_PATH = "src/main/resources/Track.png";
+    public static final String TRACK_FILE_PATH = "src/main/resources/Track-2.png";
     public static BufferedImage track;
     public static boolean[][] trackLayout;
     private static Logger logger = Logger.getLogger(UIConstants.class.getName());

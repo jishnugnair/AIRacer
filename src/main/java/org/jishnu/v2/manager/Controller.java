@@ -24,13 +24,12 @@ public class Controller {
         var random = new Random();
         var startTimestamp = System.currentTimeMillis();
 
-
         for (var i = 0; i < carCount; i++) {
-            cars[i] = new Car(470, 800, 0,
+            cars[i] = new Car(1000, 850, 0,
                     new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)),
                     UIConstants.trackLayout, startTimestamp);
 
-            networks[i] = new NeuralNetwork(3, 4, 1, 4);
+            networks[i] = new NeuralNetwork(3, 4, 2, 4);
         }
 
         new Frame(cars);
