@@ -23,8 +23,13 @@ public class Driver implements Runnable {
     @Override
     public void run() {
         while (car.isRunning()) {
-            int driveInput = neuralNetwork.returnOutput(car.getStats());
-            CarConstants.carControls[driveInput].control(car, 10);
+            boolean[] driveInputs = neuralNetwork.returnOutput(car.getStats());
+            for (int i = 0; i < driveInputs.length; i++) {
+                if (driveInputs[i]) {
+                    CarConstants.carControls[i].control(car, 10);
+                    break;
+                }
+            }
             try {
                 TimeUnit.MILLISECONDS.sleep(35);
             } catch (InterruptedException e) {

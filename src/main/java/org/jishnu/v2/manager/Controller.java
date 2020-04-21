@@ -4,6 +4,7 @@ import org.jishnu.v2.cars.Car;
 import org.jishnu.v2.driver.Driver;
 import org.jishnu.v2.io.NetIO;
 import org.jishnu.v2.nn.NeuralNetwork;
+import org.jishnu.v2.ui.Board;
 import org.jishnu.v2.ui.Frame;
 import org.jishnu.v2.ui.UIConstants;
 
@@ -15,7 +16,9 @@ import java.util.logging.Logger;
 
 public class Controller {
     private static Logger logger = Logger.getLogger(Controller.class.getName());
-    private Controller() {}
+
+    private Controller() {
+    }
 
     public static void start() {
         var carCount = Configs.CAR_COUNT;
@@ -29,7 +32,7 @@ public class Controller {
                     new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)),
                     UIConstants.trackLayout, startTimestamp);
 
-            networks[i] = new NeuralNetwork(3, 4, 2, 4);
+            networks[i] = new NeuralNetwork(3, 2, 1, 4);
         }
 
         new Frame(cars);
@@ -61,9 +64,10 @@ public class Controller {
 
         var halfCount = carCount / 2;
         var bestNetworks = sorter.getBestNetworks(halfCount);
+        Board.drawNetwork(bestNetworks[halfCount - 1]);
 
         if (epochCount == Configs.EPOCH_COUNT) {
-            for(int i = 0; i < halfCount; i++)
+            for (int i = 0; i < halfCount; i++)
                 NetIO.writeFile(bestNetworks[i], Configs.OUTPUT_PATH, i);
 
             executor.shutdown();
@@ -73,7 +77,7 @@ public class Controller {
         var nextGenNetworks = new NeuralNetwork[carCount];
         var timestamp = System.currentTimeMillis();
 
-        for (int i = 0; i < halfCount; i ++) {
+        for (int i = 0; i < halfCount; i++) {
             nextGenNetworks[i] = bestNetworks[i];
             nextGenNetworks[i + halfCount] = bestNetworks[i].getMutatedNetwork();
         }

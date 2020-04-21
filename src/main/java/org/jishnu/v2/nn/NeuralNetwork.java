@@ -17,6 +17,7 @@ public class NeuralNetwork {
     private int hiddenLayers;
     private int nnId;
     private static AtomicInteger nnIdCounter = new AtomicInteger(0);
+    private static final float threshold = NNConstants.threshold;
     private Random random = new Random(System.currentTimeMillis() + nnIdCounter.get());
 
     private NeuralNetwork(int inputCount, int outputCount, int hiddenLayers, int nodeCount, double[][][] baseNodeWeights) {
@@ -102,7 +103,7 @@ public class NeuralNetwork {
         }
     }
 
-    public int returnOutput(double[] inputValues) {
+    public boolean[] returnOutput(double[] inputValues) {
         for (int layer = 0; layer < nodeWeights.length; layer++) {
             double[] previousNode;
             if (layer > 0) {
@@ -125,22 +126,19 @@ public class NeuralNetwork {
         return new NeuralNetwork(inputCount, outputCount, hiddenLayers, nodeCount, nodeWeights);
     }
 
-    private int getOutputIndex(double[] outputNodes) {
+    protected boolean[] getOutputIndex(double[] outputNodes) {
         double max = Double.MIN_VALUE;
-        int outputIndex = 0;
-        int oneCount = 0;
+        boolean[] output = new boolean[outputCount];
+        int currentMaxIndex = 0;
         for (int i = 0; i < outputNodes.length; i++) {
-            if(outputNodes[i] == 1)
-                oneCount++;
-            if (outputNodes[i] > max) {
+            if (outputNodes[i] > threshold && outputNodes[i] > max) {
                 max = outputNodes[i];
-                outputIndex = i;
+                output[currentMaxIndex] = false;
+                output[i] = true;
+                currentMaxIndex = i;
             }
         }
-        if(oneCount == 4)
-            System.out.println("All outputs are one");
-
-        return outputIndex;
+        return output;
     }
 
     public double[][][] getNodeWeights() {return nodeWeights;}

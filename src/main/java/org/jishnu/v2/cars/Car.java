@@ -1,6 +1,7 @@
 package org.jishnu.v2.cars;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
 
 public class Car {
     private int length = CarConstants.chassisLength / 2;
@@ -28,8 +29,10 @@ public class Car {
     private int[] yn = new int[4];
     private long prevTimestamp;
     private long currentTimestamp;
-    private float startVelocity = 10;
+    private float startVelocity = 6;
     private float velocity = startVelocity;
+    private int lookingDirections = CarConstants.sideViewCount * 2 + 1;
+    private Line2D[] lineOfSight = new Line2D[lookingDirections];
     private Color color;
     private float pi = (float) Math.PI;
     private int[] stats = new int[CarConstants.sideViewCount];
@@ -44,6 +47,7 @@ public class Car {
         this.trackLayout = trackLayout;
         prevTimestamp = timestamp;
         currentTimestamp = ++timestamp;
+        instantiateLineOfSight();
     }
 
     public void resetCar(long timestamp) {
@@ -97,20 +101,12 @@ public class Car {
         }
     }
 
-    public void setStartPositionAndDirection(int positionX, int positionY, float carDirection, long timestamp) {
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.carDirection = carDirection;
-        prevTimestamp = timestamp;
-        currentTimestamp = timestamp;
+    public Polygon getPolygon() {
+        return new Polygon(xn, yn, 4);
     }
 
-    public Polygon getPolygon(long timestamp) {
-        if(carAlive) {
-            updatePosition(timestamp);
-            calculateEdges();
-        }
-        return new Polygon(xn, yn, 4);
+    public Line2D[] getLineOfSight() {
+        return lineOfSight;
     }
 
     private void calculateEdges() {
@@ -124,15 +120,15 @@ public class Car {
         yn[3] = (int) Math.round(positionY + diagonal * Math.sin(carDirection + pi + diagonalAngle));
     }
 
-    private void updatePosition(long timestamp) {
-        currentTimestamp = timestamp;
+    private void updatePosition() {
+        currentTimestamp = System.currentTimeMillis();
         float deltaPositionX = (float) (Math.cos(carDirection) * velocity * (currentTimestamp - prevTimestamp) / 100f);
         float deltaPositionY = (float) (Math.sin(carDirection) * velocity * (currentTimestamp - prevTimestamp) / 100f);
         positionX += deltaPositionX;
         positionY += deltaPositionY;
         travelDistance += Math.hypot(deltaPositionX, deltaPositionY);
         travelTime += currentTimestamp - prevTimestamp;
-        prevTimestamp = timestamp;
+        prevTimestamp = currentTimestamp;
         carAlive = isCarAlive();
         if (positionX > 1920)
             positionX = 0;
@@ -146,8 +142,8 @@ public class Car {
 
     private boolean isCarAlive() {
         calculateEdges();
-        for(int i = 0; i < 2; i++) {
-            if(trackLayout[xn[i]][yn[i]]) {
+        for (int i = 0; i < 2; i++) {
+            if (trackLayout[xn[i]][yn[i]]) {
                 velocity = 0;
                 return false;
             }
@@ -159,20 +155,9 @@ public class Car {
         return carAlive;
     }
 
-    public int getPositionX() {
-        return Math.round(positionX);
-    }
-
-    public int getPositionY() {
-        return Math.round(positionY);
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public int getBreadth() {
-        return breadth;
+    private void instantiateLineOfSight() {
+        for (int i = 0; i < lookingDirections; i++)
+            lineOfSight[i] = new Line2D.Float();
     }
 
     public float getTravelDistance() {
@@ -184,21 +169,24 @@ public class Car {
     }
 
     public double[] getStats() {
-        float lookingAngle = carDirection - CarConstants.sideViewAngle;
-        int lookingDirections = CarConstants.sideViewCount * 2 + 1;
+        updatePosition();
+        calculateEdges();
+        float lookingAngle = -CarConstants.sideViewAngle * CarConstants.sideViewCount;
+
         double[] distances = new double[lookingDirections];
-        int checkPointX;
-        int checkPointY;
-        for(int i = 0; i < lookingDirections; i++) {
-            for(int j = CarConstants.viewDistanceSteps; j <= CarConstants.viewDistance; j += CarConstants.viewDistanceSteps) {
+        int checkPointX = 0;
+        int checkPointY = 0;
+        for (int i = 0; i < lookingDirections; i++) {
+            for (int j = CarConstants.viewDistanceSteps; j <= CarConstants.viewDistance; j += CarConstants.viewDistanceSteps) {
                 checkPointX = (int) Math.round(positionX + j * Math.cos(carDirection + lookingAngle));
                 checkPointY = (int) Math.round(positionY + j * Math.sin(carDirection + lookingAngle));
-                if(trackLayout[checkPointX][checkPointY]) {
+                if (trackLayout[checkPointX][checkPointY]) {
                     break;
                 }
-                distances[i] = (double) j / CarConstants.viewDistance;
+                distances[i] = (double) (j - CarConstants.viewDistance) / CarConstants.viewDistance;
             }
             lookingAngle += CarConstants.sideViewAngle;
+            lineOfSight[i].setLine(positionX, positionY, checkPointX, checkPointY);
         }
         //System.out.println(distances[0] + " " + distances[1] + " " + distances[2]);
         return distances;
