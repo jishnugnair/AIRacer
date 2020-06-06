@@ -3,6 +3,9 @@ package org.jishnu.v2.nn;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ *
+ */
 public class NeuralNetwork {
     /** Three dimensional array for holding hidden and output layer's node weights.
        The dimensions are layer, node, inputNode
@@ -23,6 +26,14 @@ public class NeuralNetwork {
     private static final float threshold = NNConstants.threshold;
     private Random random = new Random(System.currentTimeMillis() + nnIdCounter.get());
 
+    /**
+     * Takes node weights of an existing neural network, mutates it to create an new <code>NeuralNetwork</code>
+     * @param inputCount takes the number of input nodes for neural network
+     * @param outputCount takes the number of output nodes for the neural network
+     * @param hiddenLayers takes the number of hidden layers for the neural network
+     * @param nodeCount takes the number of nodes in each hidden layer
+     * @param baseNodeWeights node weights of the parent neural network
+     */
     private NeuralNetwork(int inputCount, int outputCount, int hiddenLayers, int nodeCount, double[][][] baseNodeWeights) {
         if (hiddenLayers < 1 || nodeCount < 1)
             throw new IllegalArgumentException("At least 1 hidden Layer and nodeCount is needed");
@@ -114,8 +125,8 @@ public class NeuralNetwork {
 
     /**
      *
-     * @param inputValues
-     * @return
+     * @param inputValues array of looking distances in all direction
+     * @return boolean array with only one <b>true</b> value indicating output of neural network
      */
     public boolean[] returnOutput(double[] inputValues) {
         for (int layer = 0; layer < nodeWeights.length; layer++) {
@@ -136,6 +147,10 @@ public class NeuralNetwork {
         return getOutputIndex(nodeInputs[totalLayers - 1]);
     }
 
+    /**
+     * Mutates an existing network randomly
+     * @return new instance of mutated copy of an existing instance
+     */
     public NeuralNetwork getMutatedNetwork() {
         return new NeuralNetwork(inputCount, outputCount, hiddenLayers, nodeCount, nodeWeights);
     }

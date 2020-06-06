@@ -70,6 +70,10 @@ public class Car {
         carAlive = true;
     }
 
+    /**
+     * Increases or decreases the applied driving force on wheels
+     * @param level sets the amount of driving force applied on wheels hence the acceleration
+     */
     public void accelerate(int level) {
         if (carAlive && currentTimestamp > prevTimestamp) {
             wheelForceApplied = wheelPower * level;
@@ -85,6 +89,10 @@ public class Car {
         return color;
     }
 
+    /**
+     * Increases or decreases the applied braking force on wheels
+     * @param level sets the amount of braking force applied on wheels hence the acceleration
+     */
     public void brake(int level) {
         //if (currentTimestamp > prevTimestamp && velocity > 0) {
         if (velocity > 0) {
@@ -93,6 +101,10 @@ public class Car {
         }
     }
 
+    /**
+     * Steers the car left, the angle is divided in discreet steps selected by <b>level</b>
+     * @param level sets the angle of wheel
+     */
     public void steerLeft(int level) {
         //if (currentTimestamp > prevTimestamp && velocity > 0) {
         if (velocity > 0) {
@@ -101,6 +113,10 @@ public class Car {
         }
     }
 
+    /**
+     * Steers the car right, the angle is divided in discreet steps selected by <b>level</b>
+     * @param level sets the angle of wheel
+     */
     public void steerRight(int level) {
         //if (currentTimestamp > prevTimestamp && velocity > 0) {
         if (velocity > 0) {
@@ -117,6 +133,9 @@ public class Car {
         return lineOfSight;
     }
 
+    /**
+     * Calculates the current edges of the car
+     */
     private void calculateEdges() {
         xn[0] = (int) Math.round(positionX + diagonal * Math.cos(carDirection - diagonalAngle));
         yn[0] = (int) Math.round(positionY + diagonal * Math.sin(carDirection - diagonalAngle));
@@ -128,6 +147,9 @@ public class Car {
         yn[3] = (int) Math.round(positionY + diagonal * Math.sin(carDirection + pi + diagonalAngle));
     }
 
+    /**
+     * Updates the current position of the car
+     */
     private void updatePosition() {
         currentTimestamp = System.currentTimeMillis();
         float deltaPositionX = (float) (Math.cos(carDirection) * velocity * (currentTimestamp - prevTimestamp) / 100f);

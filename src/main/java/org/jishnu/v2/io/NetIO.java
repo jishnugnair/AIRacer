@@ -15,10 +15,10 @@ public class NetIO {
     private static Logger logger = Logger.getLogger(NetIO.class.getName());
 
     /**
-     *
-     * @param network
-     * @param outPath
-     * @param index
+     * Write the instance of <code>NeuralNetwork</code> to file
+     * @param network instance of a <code>NeuralNetwork</code>
+     * @param outPath path to file where the neural network is to be written
+     * @param index unique index of the network
      */
     public static void writeFile(NeuralNetwork network, String outPath, int index) {
         var json = createJson(network);
@@ -29,6 +29,11 @@ public class NetIO {
         }
     }
 
+    /**
+     * Creates a JSON representation of <code>NeuralNetwork</code> instance.
+     * @param network which needs to represented as JSON
+     * @return JSON string with state of the network
+     */
     private static String createJson(NeuralNetwork network) {
         JSONObject base = new JSONObject();
         base.append("Input-Count", network.getInputCount())

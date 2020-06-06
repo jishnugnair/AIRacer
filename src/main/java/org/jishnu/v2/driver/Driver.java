@@ -8,6 +8,9 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
+/**
+ * This class connects the driver <code>NeuralNetwork</code> to the driven <code>Car</code>
+ */
 public class Driver implements Runnable {
     private Car car;
     private NeuralNetwork neuralNetwork;
@@ -26,6 +29,9 @@ public class Driver implements Runnable {
         this.countDownLatch = countDownLatch;
     }
 
+    /**
+     * Runs a single thread of driver <code>NeuralNetwork</code> and <code>Car</code>
+     */
     @Override
     public void run() {
         while (car.isRunning()) {
