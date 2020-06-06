@@ -13,6 +13,13 @@ import java.util.logging.Logger;
 
 public class NetIO {
     private static Logger logger = Logger.getLogger(NetIO.class.getName());
+
+    /**
+     *
+     * @param network
+     * @param outPath
+     * @param index
+     */
     public static void writeFile(NeuralNetwork network, String outPath, int index) {
         var json = createJson(network);
         try(var writer = new BufferedWriter(new FileWriter(outPath + network.toString() + index))) {

@@ -12,12 +12,18 @@ public class Driver implements Runnable {
     private Car car;
     private NeuralNetwork neuralNetwork;
     private Logger logger = Logger.getLogger(Driver.class.getName());
-    private CountDownLatch downLatch;
+    private CountDownLatch countDownLatch;
 
-    public Driver(NeuralNetwork neuralNetwork, Car car, CountDownLatch downLatch) {
+    /**
+     * Instantiates <code>Driver</code> class which will drive one car using one neural network
+     * @param neuralNetwork instance of <code>NeuralNetwork</code> which will drive the car
+     * @param car instance of <code>Car</code> which will be driven
+     * @param countDownLatch to track individual <code>Driver</code> thread
+     */
+    public Driver(NeuralNetwork neuralNetwork, Car car, CountDownLatch countDownLatch) {
         this.car = car;
         this.neuralNetwork = neuralNetwork;
-        this.downLatch = downLatch;
+        this.countDownLatch = countDownLatch;
     }
 
     @Override
@@ -36,6 +42,6 @@ public class Driver implements Runnable {
                 logger.severe(e.getLocalizedMessage());
             }
         }
-        downLatch.countDown();
+        countDownLatch.countDown();
     }
 }

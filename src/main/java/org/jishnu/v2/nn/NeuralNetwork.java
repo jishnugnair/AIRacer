@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class NeuralNetwork {
-    /* Three dimensional array for holding hidden and output layer's node weights.
+    /** Three dimensional array for holding hidden and output layer's node weights.
        The dimensions are layer, node, inputNode
      */
     private double[][][] nodeWeights;
@@ -16,6 +16,9 @@ public class NeuralNetwork {
     private int nodeCount;
     private int hiddenLayers;
     private int nnId;
+    /**
+     * A counter to uniquely identify a Neural Network variation
+     */
     private static AtomicInteger nnIdCounter = new AtomicInteger(0);
     private static final float threshold = NNConstants.threshold;
     private Random random = new Random(System.currentTimeMillis() + nnIdCounter.get());
@@ -55,14 +58,20 @@ public class NeuralNetwork {
 
                 for (int inputNodeCount = 0; inputNodeCount < nodeWeights[layer][node].length; inputNodeCount++) {
                     nodeWeights[layer][node][inputNodeCount] = baseNodeWeights[layer][node][inputNodeCount] + (random.nextBoolean() ? -1 : 1) * random.nextDouble() / divisor;
-                    /* if(layer == 0)
-                        System.out.println(nodeWeights[layer][node][inputNodeCount]);
-                    */
                 }
             }
         }
     }
 
+    /**
+     * Initializes a new instance of neural network with specified input nodes, output nodes,
+     * hidden layers and number of nodes in each hidden layer. Currently hidden layers with
+     * different node counts is not supported.
+     * @param inputCount takes the number of input nodes for neural network
+     * @param outputCount takes the number of output nodes for the neural network
+     * @param hiddenLayers takes the number of hidden layers for the neural network
+     * @param nodeCount takes the number of nodes in each hidden layer
+     */
     public NeuralNetwork(int inputCount, int outputCount, int hiddenLayers, int nodeCount) {
         if (hiddenLayers < 1 || nodeCount < 1)
             throw new IllegalArgumentException("At least 1 hidden Layer and nodeCount is needed");
@@ -103,6 +112,11 @@ public class NeuralNetwork {
         }
     }
 
+    /**
+     *
+     * @param inputValues
+     * @return
+     */
     public boolean[] returnOutput(double[] inputValues) {
         for (int layer = 0; layer < nodeWeights.length; layer++) {
             double[] previousNode;

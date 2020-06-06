@@ -14,12 +14,19 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
+/**
+ * This class controls all events of this application.
+ * Since only one instance is required the constructor has been set to <code>private</code>
+ */
 public class Controller {
     private static Logger logger = Logger.getLogger(Controller.class.getName());
 
     private Controller() {
     }
 
+    /**
+     * Creates instances of cars and neural networks and triggers the first epoch.
+     */
     public static void start() {
         var carCount = Configs.CAR_COUNT;
         var cars = new Car[carCount];
@@ -28,11 +35,11 @@ public class Controller {
         var startTimestamp = System.currentTimeMillis();
 
         for (var i = 0; i < carCount; i++) {
-            cars[i] = new Car(1000, 850, 0,
+            cars[i] = new Car(300, 780, 0,
                     new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)),
                     UIConstants.trackLayout, startTimestamp);
 
-            networks[i] = new NeuralNetwork(3, 2, 1, 4);
+            networks[i] = new NeuralNetwork(5, 4, 1, 4);
         }
 
         new Frame(cars);
@@ -41,11 +48,16 @@ public class Controller {
 
     }
 
+    /**
+     * Executes one epoch and calls itself recursively to execute further epochs.
+     * @param networks array of neural networks which will control the car's movements
+     * @param cars array of all cars which will be driven by neural networks
+     * @param epochCount number of epochs for which the process of evolution will be executed
+     */
     public static void runEpochs(NeuralNetwork[] networks, Car[] cars, int epochCount) {
 
         var carCount = Configs.CAR_COUNT;
         var doneSignal = new CountDownLatch(carCount);
-        var sorter = new ScoreSorter(networks, cars);
         var drivers = new Driver[carCount];
         var executor = Executors.newFixedThreadPool(carCount);
 
@@ -53,7 +65,6 @@ public class Controller {
         for (int i = 0; i < carCount; i++) {
             drivers[i] = new Driver(networks[i], cars[i], doneSignal);
             executor.submit(drivers[i]);
-            //System.out.println("Network id: " + networks[i].getNnId());
         }
 
         try {
@@ -63,7 +74,7 @@ public class Controller {
         }
 
         var halfCount = carCount / 2;
-        var bestNetworks = sorter.getBestNetworks(halfCount);
+        var bestNetworks = NetworkSorter.getBestNetworks(networks, cars, halfCount);
         Board.drawNetwork(bestNetworks[halfCount - 1]);
 
         if (epochCount == Configs.EPOCH_COUNT) {
@@ -75,17 +86,14 @@ public class Controller {
         }
 
         var nextGenNetworks = new NeuralNetwork[carCount];
-        var timestamp = System.currentTimeMillis();
 
         for (int i = 0; i < halfCount; i++) {
             nextGenNetworks[i] = bestNetworks[i];
             nextGenNetworks[i + halfCount] = bestNetworks[i].getMutatedNetwork();
         }
 
-        //System.out.println("All car distances");
         for (int i = 0; i < carCount; i++) {
-            //System.out.println(cars[i].getTravelDistance());
-            cars[i].resetCar(timestamp);
+            cars[i].resetCar();
         }
 
         runEpochs(nextGenNetworks, cars, ++epochCount);
