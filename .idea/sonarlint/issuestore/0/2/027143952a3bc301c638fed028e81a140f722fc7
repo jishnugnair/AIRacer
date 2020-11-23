@@ -1,0 +1,17 @@
+
+P
+java:S1068"3Remove this unused "dragCoefficient" private field.(«˜ä£8ŸÐÅÅ—.
+Z
+java:S1068"8Remove this unused "steeringAngleApplied" private field.(Çà½™ÿÿÿÿÿ8Û“æÅ—.
+P
+java:S1068"3Remove this unused "rollingFriction" private field.(ö¶œ¿8ŸÐÅÅ—.
+‚
+java:S1450"`Remove the "brakeForceApplied" field and declare it as a local variable in the relevant methods.(í Ì“þÿÿÿÿ8à€´Ñ—.
+W
+java:S1068"5Remove this unused "brakeForceApplied" private field.(í Ì“þÿÿÿÿ8à€´Ñ—.
+]	java:S125Y"<This block of commented-out lines of code should be removed.(¤•†›ûÿÿÿÿ8Ô¤Ëð˜.
+U	java:S106P"9Replace this use of System.out or System.err by a logger.(²˜œÑ8Í°²‘š.
+K
+java:S1068*")Remove this unused "stats" private field.(˜èÉðÿÿÿÿÿ8œòäœ˜.
+]	java:S125a"<This block of commented-out lines of code should be removed.(¤•†›ûÿÿÿÿ8›öËð˜.
+]	java:S125i"<This block of commented-out lines of code should be removed.(¤•†›ûÿÿÿÿ8ª’Ìð˜.

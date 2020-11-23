@@ -8,14 +8,14 @@ import java.awt.geom.Line2D;
  * of the car and methods to manipulate and monitor them.
  */
 public class Car {
-    private int length = CarConstants.chassisLength / 2;
-    private int breadth = CarConstants.chassisWidth / 2;
+    private int length = CarConfigs.chassisLength / 2;
+    private int breadth = CarConfigs.chassisWidth / 2;
     private int diagonal = (int) Math.hypot(length, breadth);
     private float diagonalAngle = (float) Math.atan2(breadth, length);
-    private int mass = CarConstants.chassisWeight;
-    private int wheelPower = CarConstants.accelerationForce / CarConstants.powerStepCount;
-    private int brakePower = CarConstants.brakeForce / CarConstants.breakStepCount;
-    private float steeringAngle = CarConstants.turnAngle / CarConstants.steeringStepCount;
+    private int mass = CarConfigs.chassisWeight;
+    private int wheelPower = CarConfigs.accelerationForce / CarConfigs.powerStepCount;
+    private int brakePower = CarConfigs.brakeForce / CarConfigs.breakStepCount;
+    private float steeringAngle = CarConfigs.turnAngle / CarConfigs.steeringStepCount;
     private float dragCoefficient;
     private float rollingFriction;
     private int wheelForceApplied;
@@ -35,11 +35,11 @@ public class Car {
     private long currentTimestamp;
     private float startVelocity = 10;
     private float velocity = startVelocity;
-    private int lookingDirections = CarConstants.sideViewCount * 2 + 1;
+    private int lookingDirections = CarConfigs.sideViewCount * 2 + 1;
     private Line2D[] lineOfSight = new Line2D[lookingDirections];
     private Color color;
     private float pi = (float) Math.PI;
-    private final int[] stats = new int[CarConstants.sideViewCount];
+    private final int[] stats = new int[CarConfigs.sideViewCount];
     private boolean carAlive = true;
     private final boolean[][] trackLayout;
 
@@ -216,21 +216,21 @@ public class Car {
     public double[] getStats() {
         updatePosition();
         calculateEdges();
-        float lookingAngle = -CarConstants.sideViewAngle * CarConstants.sideViewCount;
+        float lookingAngle = -CarConfigs.sideViewAngle * CarConfigs.sideViewCount;
 
         double[] distances = new double[lookingDirections];
         int checkPointX = 0;
         int checkPointY = 0;
         for (int i = 0; i < lookingDirections; i++) {
-            for (int j = CarConstants.viewDistanceSteps; j <= CarConstants.viewDistance; j += CarConstants.viewDistanceSteps) {
+            for (int j = CarConfigs.viewDistanceSteps; j <= CarConfigs.viewDistance; j += CarConfigs.viewDistanceSteps) {
                 checkPointX = (int) Math.round(positionX + j * Math.cos(carDirection + lookingAngle));
                 checkPointY = (int) Math.round(positionY + j * Math.sin(carDirection + lookingAngle));
                 if (trackLayout[checkPointX][checkPointY]) {
                     break;
                 }
-                distances[i] = (double) (j - CarConstants.viewDistance) / CarConstants.viewDistance;
+                distances[i] = (double) (j - CarConfigs.viewDistance) / CarConfigs.viewDistance;
             }
-            lookingAngle += CarConstants.sideViewAngle;
+            lookingAngle += CarConfigs.sideViewAngle;
             lineOfSight[i].setLine(positionX, positionY, checkPointX, checkPointY);
         }
         return distances;

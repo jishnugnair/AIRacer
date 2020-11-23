@@ -12,7 +12,7 @@ public class NeuralNetwork {
      */
     private double[][][] nodeWeights;
     private double[][] nodeInputs;
-    private static final Activation activation = NNConstants.SIGMOID;
+    private static final Activation activation = NNConfigs.SIGMOID;
     private int totalLayers;
     private int inputCount;
     private int outputCount;
@@ -23,11 +23,11 @@ public class NeuralNetwork {
      * A counter to uniquely identify a Neural Network variation
      */
     private static AtomicInteger nnIdCounter = new AtomicInteger(0);
-    private static final float threshold = NNConstants.threshold;
+    private static final float threshold = NNConfigs.threshold;
     private Random random = new Random(System.currentTimeMillis() + nnIdCounter.get());
 
     /**
-     * Takes node weights of an existing neural network, mutates it to create an new <code>NeuralNetwork</code>
+     * Takes node weights of an existing neural network, mutates it to create an new {@code NeuralNetwork}
      * @param inputCount takes the number of input nodes for neural network
      * @param outputCount takes the number of output nodes for the neural network
      * @param hiddenLayers takes the number of hidden layers for the neural network

@@ -6,11 +6,12 @@ import org.jishnu.v2.io.NetIO;
 import org.jishnu.v2.nn.NeuralNetwork;
 import org.jishnu.v2.ui.Board;
 import org.jishnu.v2.ui.Frame;
-import org.jishnu.v2.ui.UIConstants;
+import org.jishnu.v2.ui.UIConfigs;
 
 import java.awt.*;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
@@ -37,14 +38,16 @@ public class Controller {
         for (var i = 0; i < carCount; i++) {
             cars[i] = new Car(300, 780, 0,
                     new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)),
-                    UIConstants.trackLayout, startTimestamp);
+                    UIConfigs.trackLayout, startTimestamp);
 
             networks[i] = new NeuralNetwork(5, 4, 1, 4);
         }
 
         new Frame(cars);
 
-        runEpochs(networks, cars, 0);
+        var executor = Executors.newFixedThreadPool(carCount);
+
+        runEpochs(executor, networks, cars, 0);
 
     }
 
@@ -54,12 +57,12 @@ public class Controller {
      * @param cars array of all cars which will be driven by neural networks
      * @param epochCount number of epochs for which the process of evolution will be executed
      */
-    public static void runEpochs(NeuralNetwork[] networks, Car[] cars, int epochCount) {
+    public static void runEpochs(ExecutorService executor, NeuralNetwork[] networks, Car[] cars, int epochCount) {
 
         var carCount = Configs.CAR_COUNT;
         var doneSignal = new CountDownLatch(carCount);
         var drivers = new Driver[carCount];
-        var executor = Executors.newFixedThreadPool(carCount);
+
 
         logger.info("Epoch number: " + epochCount);
         for (int i = 0; i < carCount; i++) {
@@ -96,6 +99,6 @@ public class Controller {
             cars[i].resetCar();
         }
 
-        runEpochs(nextGenNetworks, cars, ++epochCount);
+        runEpochs(executor, nextGenNetworks, cars, ++epochCount);
     }
 }

@@ -1,0 +1,26 @@
+
+F
+java:S1068"*Remove this unused "length" private field.( Ÿ®x8ØßÈ€—.
+M
+java:S1068"+Remove this unused "breadth" private field.(íïœöüÿÿÿÿ8ÿÂÊ€—.
+P
+java:S1068"3Remove this unused "dragCoefficient" private field.(«˜ä£8ÿÂÊ€—.
+{
+java:S1450"^Remove the "dragCoefficient" field and declare it as a local variable in the relevant methods.(«˜ä£8ÿÂÊ€—.
+q
+java:S1450"URemove the "length" field and declare it as a local variable in the relevant methods.( Ÿ®x8éáÉ€—.
+{
+java:S1450"^Remove the "rollingFriction" field and declare it as a local variable in the relevant methods.(ö¶œ¿8ÿÂÊ€—.
+J
+java:S1068"(Remove this unused "mass" private field.(ï­¾óûÿÿÿÿ8ÿÂÊ€—.
+P
+java:S1068"3Remove this unused "rollingFriction" private field.(ö¶œ¿8ÿÂÊ€—.
+v
+java:S1450	"TRemove the "power" field and declare it as a local variable in the relevant methods.(ÕéŒÔüÿÿÿÿ8“ß€—.
+x
+java:S1450"VRemove the "breadth" field and declare it as a local variable in the relevant methods.(íïœöüÿÿÿÿ8ÿÂÊ€—.
+u
+java:S1450"SRemove the "mass" field and declare it as a local variable in the relevant methods.(ï­¾óûÿÿÿÿ8ÿÂÊ€—.
+K
+java:S1068	")Remove this unused "power" private field.(ÕéŒÔüÿÿÿÿ8“ß€—.
+]	java:S125*"<This block of commented-out lines of code should be removed.(åšşäúÿÿÿÿ8äÚÌĞ—.

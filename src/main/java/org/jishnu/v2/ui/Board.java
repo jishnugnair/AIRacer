@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 public class Board {
 
     private static BufferedImage board = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_RGB);
-    private static BufferedImage track = UIConstants.track;
+    private static BufferedImage track = UIConfigs.track;
     private static Graphics2D imageGraphics = board.createGraphics();
     private static Car[] cars;
     private static NeuralNetwork network;

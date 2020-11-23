@@ -1,0 +1,28 @@
+
+o
+java:S1450	"TRemove the "frame" field and declare it as a local variable in the relevant methods.(úÁ›þÿÿÿÿ
+7
+java:S1170"!Make this final field static too.(Õäïï
+P
+java:S1854"5Remove this useless assignment to local variable "y".(ŒèÌ¨úÿÿÿÿ
+P
+java:S1854"5Remove this useless assignment to local variable "x".(¥”¿çúÿÿÿÿ
+M
+java:S1135"2Complete the task associated to this TODO comment.(» æžÿÿÿÿÿ
+M
+java:S1135 "2Complete the task associated to this TODO comment.(» æžÿÿÿÿÿ
+M
+java:S1135&"2Complete the task associated to this TODO comment.(» æžÿÿÿÿÿ
+M
+java:S1135,"2Complete the task associated to this TODO comment.(» æžÿÿÿÿÿ
+A
+java:S1481"&Remove this unused "x" local variable.(¥”¿çúÿÿÿÿ
+A
+java:S1481"&Remove this unused "y" local variable.(ŒèÌ¨úÿÿÿÿ
+B
+java:S1068",Remove this unused "cellSize" private field.(Õäïï
+D
+java:S1068	")Remove this unused "frame" private field.(úÁ›þÿÿÿÿ
+>
+java:S1068
+"(Remove this unused "dice" private field.(Ý³í¯

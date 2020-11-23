@@ -15,7 +15,7 @@ public class NetIO {
     private static Logger logger = Logger.getLogger(NetIO.class.getName());
 
     /**
-     * Write the instance of <code>NeuralNetwork</code> to file
+     * Writes the instance of <code>NeuralNetwork</code> to file
      * @param network instance of a <code>NeuralNetwork</code>
      * @param outPath path to file where the neural network is to be written
      * @param index unique index of the network

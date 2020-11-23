@@ -1,7 +1,7 @@
 package org.jishnu.v2.driver;
 
 import org.jishnu.v2.cars.Car;
-import org.jishnu.v2.cars.CarConstants;
+import org.jishnu.v2.cars.CarConfigs;
 import org.jishnu.v2.nn.NeuralNetwork;
 
 import java.util.concurrent.CountDownLatch;
@@ -38,7 +38,7 @@ public class Driver implements Runnable {
             boolean[] driveInputs = neuralNetwork.returnOutput(car.getStats());
             for (int i = 0; i < driveInputs.length; i++) {
                 if (driveInputs[i]) {
-                    CarConstants.carControls[i].control(car, 10);
+                    CarConfigs.carControls[i].control(car, 10);
                     break;
                 }
             }

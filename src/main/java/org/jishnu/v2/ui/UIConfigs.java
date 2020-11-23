@@ -6,14 +6,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class UIConstants {
-    private static final Logger logger = Logger.getLogger(UIConstants.class.getName());
+public class UIConfigs {
+    private static final Logger logger = Logger.getLogger(UIConfigs.class.getName());
 
     public static final String TRACK_FILE_PATH = "src/main/resources/Track.png";
     public static final BufferedImage track = initializeTrack();
     public static final boolean[][] trackLayout = createTrackLayout();
 
-    private UIConstants() {}
+    private UIConfigs() {}
 
     private static BufferedImage initializeTrack() {
         try {
